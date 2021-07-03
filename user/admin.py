@@ -12,7 +12,7 @@ class UserAdmin(admin.ModelAdmin):
         ('Personal', {
             'fields': (
                 'username', 'password', 'first_name', 'last_name',
-                'phone_number', 'avatar', 'email', 'bio', 'type_business')
+                'phone_number', 'avatar', 'email', 'bio', 'business')
         }),
         ('Security', {
             'fields': ('is_verified', 'is_staff', 'public_private'),

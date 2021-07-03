@@ -39,6 +39,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,7 +49,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:9000"
+]
 ROOT_URLCONF = 'instagram.urls'
 
 AUTH_USER_MODEL = 'user.CustomUser'
@@ -74,17 +79,23 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE'  : 'django.db.backends.postgresql',
-        'NAME'    : env('DATABASE_NAME'),
-        'USER'    : env('DATABASE_USER'),
-        'HOST'    : 'localhost',
-        'PASSWORD': env('DATABASE_PASS'),
-        'PORT'    : int(env('DATABASE_PORT')),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase', # This is where you put the name of the db file. 
+                 # If one doesn't exist, it will be created at migration time.
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE'  : 'django.db.backends.postgresql',
+#         'NAME'    : env('DATABASE_NAME'),
+#         'USER'    : env('DATABASE_USER'),
+#         'HOST'    : 'localhost',
+#         'PASSWORD': env('DATABASE_PASS'),
+#         'PORT'    : int(env('DATABASE_PORT')),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -148,3 +159,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+# celery
+CELERY_BROKER_URL = env('CELERY_BROKER')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Tehran'
+CELERY_ENABLE_UTC = True

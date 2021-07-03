@@ -16,7 +16,7 @@ from lib.shared_models import BaseModel
 
 class Business(models.Model):
     title        = models.CharField(_('title'), max_length=150, blank=True)
-    location     = models.ForeignKey(Location, on_delete=models.CASCADE,blank=True)
+    location     = models.OneToOneField(Location, on_delete=models.CASCADE,blank=True)
     email        = models.EmailField(_('email'), max_length=150,blank=True)
     phone_number = models.CharField(_('phone_number'), max_length=11, blank=True)
     preview_info = models.BooleanField(_('preview information'), default=False)
