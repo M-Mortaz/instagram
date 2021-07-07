@@ -1,7 +1,8 @@
-from django.urls import path, re_path
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    path('register/', views.UserRegister.as_view(), name='register'),
+    path('list-create/', views.UserListCreate.as_view(), name='register'),
+    path('update-delete-retrieve/<str:username>/', views.UserRetrieveDeleteUpdate.as_view()),
 ]

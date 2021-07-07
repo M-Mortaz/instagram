@@ -17,7 +17,7 @@ from lib.shared_models import BaseModel
 class Business(models.Model):
     title        = models.CharField(_('title'), max_length=150, blank=True)
     location     = models.ManyToManyField(Location,related_name='business')
-    email        = models.EmailField(_('email'), max_length=150,blank=True)
+    email        = models.EmailField(_('email'), max_length=150, blank=True)
     phone_number = models.CharField(_('phone_number'), max_length=11, blank=True)
     preview_info = models.BooleanField(_('preview information'), default=False)
 
@@ -58,7 +58,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
                                          )
     date_joined     = models.DateTimeField(_('date joined'), default=timezone.now)
     objects         = UserManager()
-    phone_number    = models.CharField(max_length=11, unique=True)
+    phone_number    = models.CharField(max_length=11, unique=True, blank=True, null=True)
     business        = models.OneToOneField(Business, blank=True, null=True,on_delete=models.CASCADE)
     is_verified     = models.BooleanField(default=False)
     avatar          = models.ImageField(upload_to=rename_profile, blank=True, null=True)
