@@ -4,7 +4,7 @@ from . import models
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = 'user',
+    list_display = 'user', 'slug'
 
 
 @admin.register(models.Media)

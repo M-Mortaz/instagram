@@ -1,7 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
 from . import models
+
+User = get_user_model()
 
 admin.site.register(models.Business)
 
@@ -21,6 +24,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'first_name', 'last_name', 'email')
 
     def save_model(self, request, obj, form, change):
-        password     = form.cleaned_data['password']
-        obj.password = make_password(password)
+        if not User.objects.filter(username=form.cleaned_data['username']).exists():
+            password = form.cleaned_data['password']
+            obj.password = make_password(password)
         obj.save()

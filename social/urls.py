@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 
-app_name ='social'
+from .api import views
+
+app_name = 'social'
 
 urlpatterns = [
-
+    path('api/', include('social.api.urls')),
 ]

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -15,7 +17,7 @@ class Post(BaseModel):
                                  on_delete=models.CASCADE)
     caption     = models.TextField(_('Caption'), max_length=300, blank=True)
     location    = models.ForeignKey(Location, related_name='posts',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE, blank=True, null=True)
     allow_share = models.BooleanField(default=True)
     slug        = models.SlugField(_('Slug'), max_length=150, unique=True)
 
@@ -33,6 +35,7 @@ class Media(BaseModel):
                                  FileExtensionValidator(allowed_extensions=[
                                      'jpg', 'jpeg', 'png', 'mkv', 'mp4', 'flv'
                                  ])])
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='media',null=True)
 
     class Meta:
         verbose_name        = _('media')

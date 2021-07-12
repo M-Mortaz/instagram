@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('user/', include('user.urls')),
     path('social/', include('social.urls')),
+    path('oauth/',
+         include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin.site.urls),
 ]
 

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'social.apps.SocialConfig',
     'relationship.apps.RelationshipConfig',
     'corsheaders',
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
@@ -85,8 +86,8 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase', # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'NAME': 'mydatabase',  # This is where you put the name of the db file.
+        # If one doesn't exist, it will be created at migration time.
     }
 }
 # DATABASES = {
@@ -158,6 +159,16 @@ REST_FRAMEWORK = {
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
     #     'rest_framework.authentication.TokenAuthentication',
     # ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ],
+
+}
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope',
+               'groups': 'Access to your groups'},
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
 }
 
 # Celery

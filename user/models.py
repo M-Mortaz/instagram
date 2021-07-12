@@ -77,7 +77,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
-        pat = r'^09\d{8}$'
+        pat = r'^09\d{9}$'
         if not re.match(pat, str(self.phone_number)):
             raise ValidationError(
                 {'phone_number': 'The correct format is 09*********'}
