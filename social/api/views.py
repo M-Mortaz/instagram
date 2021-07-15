@@ -1,6 +1,8 @@
 import uuid
-from rest_framework import generics
+
 from django.shortcuts import get_object_or_404
+
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -10,10 +12,9 @@ from social import models
 
 class RetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.PostSerializer
-    # queryset = models.Post.objects.all()
 
     def get_object(self):
-        return models.Post.objects.get(slug=self.kwargs['slug'])
+        return get_object_or_404(models.Post, slug=self.kwargs['slug'])
 
 
 class ListCreate(generics.ListCreateAPIView):
@@ -21,7 +22,7 @@ class ListCreate(generics.ListCreateAPIView):
     queryset = models.Post.objects.all()
 
     def perform_create(self, serializer):
-        slug = self.request.user.username + str(uuid.uuid4())
+        slug = self.request.user.username + 'post' + str(uuid.uuid4())
         serializer.save(user=self.request.user, slug=slug)
 
 

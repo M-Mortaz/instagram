@@ -1,4 +1,7 @@
 import uuid
+
+from django.shortcuts import get_object_or_404
+
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
@@ -15,7 +18,7 @@ class CommentListCreate(generics.ListCreateAPIView):
         return models.Comment.objects.filter(post=self.get_post())
 
     def get_post(self):
-        return Post.objects.get(slug=self.kwargs['slug'])
+        return get_object_or_404(Post, slug=self.kwargs['slug'])
 
     def perform_create(self, serializer):
         slug = self.request.user.username + 'comment' + str(uuid.uuid4())
@@ -27,17 +30,16 @@ class CommentListCreate(generics.ListCreateAPIView):
 
 
 class ReplyListCreate(generics.ListCreateAPIView):
-    model = models.Comment
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'slug'
     serializer_class = serializers.CommentSerializer
 
+    def get_comment(self):
+        return get_object_or_404(models.Comment, slug=self.kwargs['slug'])
+
     def get_queryset(self):
-        comment = self.get_object()
-        return models.Comment.objects.filter(reply_to=comment)
+        return models.Comment.objects.filter(reply_to=self.get_comment())
 
     def perform_create(self, serializer):
-        comment = self.get_object()
+        comment = self.get_comment()
         slug = self.request.user.username + 'reply' + str(uuid.uuid4())
         serializer.save(
             user=comment.user,
@@ -64,13 +66,14 @@ class PostLikeListCreate(generics.ListCreateAPIView):
         )
 
     def get_post(self):
-        return Post.objects.get(slug=self.kwargs['slug'])
+        return get_object_or_404(Post, slug=self.kwargs['slug'])
 
     def create(self, request, *args, **kwargs):
-        if not models.LikePost.objects.filter(
-                like__user=request.user,
-                post=self.get_post()
-        ).exists():
+        like_post = models.LikePost.objects.filter(
+            like__user=request.user,
+            post=self.get_post())
+
+        if not like_post.exists():
             like = models.Like(user=request.user)
             like.save()
             serializer = self.get_serializer(data=request.data)
@@ -82,11 +85,38 @@ class PostLikeListCreate(generics.ListCreateAPIView):
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED,
+                            headers=headers)
+        like_post.first().delete()
+        return Response({'Message': 'Done'})
+
+
+class CommentLikeListCreate(generics.ListCreateAPIView):
+    serializer_class = serializers.CommentLikeSerializer
+
+    def get_comment(self):
+        return get_object_or_404(models.Comment, slug=self.kwargs['slug'])
+
+    def get_queryset(self):
+        return models.LikeComment.objects.filter(comment=self.get_comment())
+
+    def create(self, request, *args, **kwargs):
+        like_comment = models.LikeComment.objects.filter(
+            like__user=request.user,
+            comment=self.get_comment())
+
+        if not like_comment.exists():
+            like = models.Like(user=request.user)
+            like.save()
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(
+                comment=self.get_comment(),
+                like=like,
+            )
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED,
                             headers=headers
                             )
-        like_post = models.LikePost.objects.filter(
-            like__user=request.user,
-            post=self.get_post()
-        ).first()
-        like_post.like.delete()
+        like_comment.first().delete()
         return Response({'Message': 'Done'})

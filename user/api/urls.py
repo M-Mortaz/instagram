@@ -3,6 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('list-create/', views.UserListCreate.as_view(), name='register'),
-    path('update-delete-retrieve/<str:username>/', views.UserRetrieveDeleteUpdate.as_view()),
+    path('list-create/',
+         views.UserListCreate.as_view(), name='register'),
+    
+    path('update-delete-retrieve/<str:username>/',
+         views.UserRetrieveDeleteUpdate.as_view()),
 ]

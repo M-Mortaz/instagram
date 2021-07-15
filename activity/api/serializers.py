@@ -17,7 +17,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class PostLikeSerializer(serializers.ModelSerializer):
     post = post_serializer.PostSerializer(read_only=True)
-    like = LikeSerializer()
+    like = LikeSerializer(read_only=True)
 
     class Meta:
         model = models.LikePost
@@ -46,5 +46,17 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_fields(self):
         fields = super().get_fields()
-        fields['reply_to'] = CommentSerializer(read_only=True)
+        fields['reply_to'] = CommentSerializer()
         return fields
+
+
+class CommentLikeSerializer(serializers.ModelSerializer):
+    comment = CommentSerializer(read_only=True)
+    like = LikeSerializer(read_only=True)
+
+    class Meta:
+        model = models.LikeComment
+        fields = (
+            'like',
+            'comment',
+        )

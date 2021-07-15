@@ -14,11 +14,13 @@ class Comment(BaseModel):
     post     = models.ForeignKey(Post, on_delete=models.CASCADE)
     slug     = models.SlugField(_('Slug'), max_length=150, unique=True, default='')
     reply_to = models.ForeignKey('self', related_name='replies',
-                             on_delete=models.CASCADE, null=True,
-                             blank=True)
+                            on_delete=models.CASCADE, null=True,
+                            blank=True)
 
     def __str__(self):
-        return f"{self.user.username} ---> {self.post.slug}"
+        if self.reply_to is not None:
+            return f'{self.user.username} ---> {self.reply_to.user.username}'
+        return f'{self.user.username} ---> {self.post.slug}'
 
     class Meta:
         verbose_name        = _('Comment')
@@ -27,10 +29,10 @@ class Comment(BaseModel):
 
 class Like(BaseModel):
     user    = models.ForeignKey(User, related_name='likes',
-                                            on_delete=models.CASCADE)
+                                      on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}"
+        return f'{self.user.username}'
 
     class Meta:
         verbose_name        = _('Like')
@@ -46,7 +48,7 @@ class LikeComment(BaseModel):
         verbose_name_plural = _('Like_comments')
 
     def __str__(self):
-        return self.like.user.username
+        return f'{self.like.user.username} ---> {self.comment.slug}'
 
 
 class LikePost(BaseModel):
