@@ -1,17 +1,25 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
+
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions
 
 from . import serializers
 
 User = get_user_model()
 
 
-class UserListCreate(generics.ListCreateAPIView):
+class UserList(generics.ListAPIView):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
+
+
+class UserRegister(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = serializers.UserSerializer
+    model = User
 
 
 class UserRetrieveDeleteUpdate(generics.RetrieveUpdateDestroyAPIView):
@@ -25,7 +33,7 @@ class UserRetrieveDeleteUpdate(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):  # Hashes the password before update
         try:
             password = serializer.initial_data['password']
-            serializer.save(password=make_password(password))   # Sets the hashed password
+            serializer.save(password=make_password(password))  # Sets the hashed password
         except:
             serializer.save()
 

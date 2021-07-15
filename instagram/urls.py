@@ -7,6 +7,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('social/', include('social.urls')),
     path('activity/', include('activity.urls')),
+    path('location/',include('location.urls',namespace='location')),
     path('oauth/',
          include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin.site.urls),

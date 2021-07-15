@@ -5,7 +5,7 @@ from lib import shared_models
 
 
 class City(shared_models.BaseModel):
-    name = models.CharField(_('name'), max_length=30,unique=True)
+    name = models.CharField(_('name'), max_length=30, unique=True)
 
     class Meta:
         verbose_name        = _('City')
@@ -16,7 +16,7 @@ class City(shared_models.BaseModel):
 
 
 class Country(shared_models.BaseModel):
-    name = models.CharField(_('name'), max_length=30,unique=True)
+    name = models.CharField(_('name'), max_length=30, unique=True)
 
     class Meta:
         verbose_name        = _('Country')

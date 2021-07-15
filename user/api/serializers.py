@@ -20,10 +20,10 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
         extra_kwargs = {
-            'password': {'write_only': True},
-            'email': {'write_only': True},
-            'first_name': {'required': False},
-            'last_name': {'required': False},
-            'bio': {'required': False},
+            'password':     {'write_only': True},
+            'email':        {'write_only': True},
+            'first_name':   {'required': False},
+            'last_name':    {'required': False},
+            'bio':          {'required': False},
             'phone_number': {'required': False},
         }
