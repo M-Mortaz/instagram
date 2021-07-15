@@ -24,9 +24,11 @@ class PostSerializer(serializers.ModelSerializer):
             'media',
             'location',
             'allow_share',
+            'slug',
         )
 
         extra_kwargs = {
             'caption': {'required': False},
             'location': {'required': False},
+            'slug': {'required': False},
         }

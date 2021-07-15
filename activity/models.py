@@ -12,6 +12,7 @@ class Comment(BaseModel):
     user     = models.ForeignKey(User, on_delete=models.CASCADE)
     content  = models.TextField(_('content'))
     post     = models.ForeignKey(Post, on_delete=models.CASCADE)
+    slug     = models.SlugField(_('Slug'), max_length=150, unique=True, default='')
     reply_to = models.ForeignKey('self', related_name='replies',
                              on_delete=models.CASCADE, null=True,
                              blank=True)
@@ -29,7 +30,7 @@ class Like(BaseModel):
                                             on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username} ---> {self.post.slug}"
+        return f"{self.user.username}"
 
     class Meta:
         verbose_name        = _('Like')
@@ -52,12 +53,13 @@ class LikePost(BaseModel):
     like = models.OneToOneField(Like, on_delete=models.CASCADE, related_name='like_post')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='posts')
 
+
     class Meta:
         verbose_name        = _('Like_Post')
         verbose_name_plural = _('Like_Posts')
 
     def __str__(self):
-        return self.like.user.username
+        return f'{self.like.user.username} ---> {self.post.slug}'
 
 
 class ViewMedia(BaseModel):
