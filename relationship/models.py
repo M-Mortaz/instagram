@@ -30,7 +30,7 @@ class Relation(BaseModel):
     confirmation = models.BooleanField(_('Confirmation'), default=False)
 
     def __str__(self):
-        return f"{self.follower} ---> {self.following}"
+        return f"{self.from_user} ---> {self.to_user}"
 
     class Meta:
         verbose_name        = _('Relation')

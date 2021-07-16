@@ -30,6 +30,16 @@ class UserRetrieveDeleteUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user)
+        followers = user.followers.count()
+        followings = user.followings.count()
+        result = serializer.data
+        result['followers'] = followers
+        result['followings'] = followings
+        return Response(result)
+
     def perform_update(self, serializer):  # Hashes the password before update
         try:
             password = serializer.initial_data['password']
