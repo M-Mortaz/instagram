@@ -4,7 +4,7 @@ from . import models
 
 @admin.register(models.Relation)
 class RelationAdmin(admin.ModelAdmin):
-    list_display = 'from_user','to_user'
+    list_display = 'from_user', 'to_user', 'confirmation', 'created'
 
     def from_user(self, obj):
         return obj.from_user.user.username

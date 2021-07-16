@@ -13,4 +13,6 @@ class RelationSerializer(serializers.ModelSerializer):
         fields = (
             'from_user',
             'to_user',
+            'confirmation',
+            'created'
         )
