@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views
 
+app_name = 'relationship-api'
+
 urlpatterns = [
     path('<str:username>/followers/',
          views.UserFollowers.as_view(), name='followers'),

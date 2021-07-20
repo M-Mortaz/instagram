@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views
 
+app_name = 'social-api'
+
 urlpatterns = [
     path('get-update-delete/<slug:slug>/',
          views.RetrieveUpdateDestroy.as_view(), name='get-update-delete'),

@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views
 
+app_name = 'activity-api'
+
 urlpatterns = [
     path('comment-list-create/<slug:slug>/',
          views.CommentListCreate.as_view(), name='comment-lc'),

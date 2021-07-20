@@ -106,7 +106,15 @@ class UserFollowRequest(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         if self.check():
-            return super(UserFollowRequest, self).update(request, *args, **kwargs)
+            partial = kwargs.pop('partial', False)
+            instance = self.get_object()
+            serializer = self.get_serializer(instance,
+                                             {'confirmation': True}, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            if getattr(instance, '_prefetched_objects_cache', None):
+                instance._prefetched_objects_cache = {}
+            return Response(serializer.data)
         return RESPONSE
 
     def destroy(self, request, *args, **kwargs):
