@@ -29,12 +29,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
+    # Applications
     'user.apps.UserConfig',
     'location.apps.LocationConfig',
     'activity.apps.ActivityConfig',
     'social.apps.SocialConfig',
     'relationship.apps.RelationshipConfig',
+    
+    # Third Party Applications
+    'rest_framework',
     'corsheaders',
     'oauth2_provider',
 ]
@@ -53,7 +56,6 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-
     "http://127.0.0.1:9000"
 ]
 
@@ -171,7 +173,7 @@ OAUTH2_PROVIDER = {
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
 }
 
-# Celery
+# Celery Configs
 CELERY_BROKER_URL = env('CELERY_BROKER')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT')
 CELERY_ACCEPT_CONTENT = ['application/json']
