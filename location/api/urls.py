@@ -22,7 +22,7 @@ urlpatterns = [
     path('location-list-create/',
          views.LocationListCreate.as_view(), name='location-list-create'),
 
-    path('location-retrieve-update-delete/<str:name>/',
+    path('location-retrieve-update-delete/<int:pk>/',
          views.LocationRetrieveUpdateDestroyAPIView.as_view(),
          name='location-retrieve-update-destroy')
 ]
