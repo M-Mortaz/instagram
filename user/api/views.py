@@ -41,11 +41,10 @@ class UserRetrieveDeleteUpdate(generics.RetrieveUpdateDestroyAPIView):
         return Response(result)
 
     def perform_update(self, serializer):  # Hashes the password before update
-        try:
-            password = serializer.initial_data['password']
-            serializer.save(password=make_password(password))  # Sets the hashed password
-        except:
-            serializer.save()
+        password = serializer.initial_data.get('password')
+        if password is not None:
+            serializer.save(password=make_password(password))
+        serializer.save()
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
