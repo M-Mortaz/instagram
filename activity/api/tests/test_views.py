@@ -9,7 +9,7 @@ from activity import models
 User = get_user_model()
 
 
-class TestViews(test.APITestCase):
+class TestActivityViews(test.APITestCase):
 
     def setUp(self):
         self.user = User.objects.create_superuser(

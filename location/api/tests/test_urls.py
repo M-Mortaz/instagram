@@ -28,5 +28,5 @@ class TestUrls(APISimpleTestCase):
         self.assertEqual(resolve(url).func.view_class, views.LocationListCreate)
 
     def test_location_retrieve_update_delete(self):
-        url = reverse('location:location-api:location-retrieve-update-destroy', args=['django'])
+        url = reverse('location:location-api:location-retrieve-update-destroy', args=[1])
         self.assertEqual(resolve(url).func.view_class, views.LocationRetrieveUpdateDestroyAPIView)

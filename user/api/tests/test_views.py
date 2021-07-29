@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase, APIClient
 User = get_user_model()
 
 
-class TestRegisterView(APITestCase):
+class TestRegisterViews(APITestCase):
 
     def setUp(self):
         self.client = APIClient()
