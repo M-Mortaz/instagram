@@ -8,7 +8,7 @@ urlpatterns = [
     path('<str:username>/followers/',
          views.UserFollowers.as_view(), name='followers'),
 
-    path('<str:username>/followers/requests/',
+    path('<followers/requests/',
          views.FollowRequests.as_view(), name='requests'),
 
     path('<str:username>/followers/requests/<str:username2>/',

@@ -38,6 +38,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'post',
             'content',
             'slug',
+            'reply_to'
         )
 
         extra_kwargs = {
@@ -46,7 +47,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_fields(self):
         fields = super().get_fields()
-        fields['reply_to'] = CommentSerializer()
+        fields['reply_to'] = CommentSerializer(required=False)
         return fields
 
 

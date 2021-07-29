@@ -22,6 +22,11 @@ class BlackList(BaseModel):
         verbose_name = _('Blacklist')
         verbose_name_plural = _('Blacklists')
 
+    def save(self, *args, **kwargs):
+        if self.blocker == self.blocked:
+            raise ValidationError('Users cant be the same!')
+        super().save(*args, **kwargs)
+
 
 class Relation(BaseModel):
     from_user = models.ForeignKey(User, related_name='followings',
@@ -44,7 +49,7 @@ class Relation(BaseModel):
     def save(self, *args, **kwargs):
         if self.from_user == self.to_user:
             raise ValidationError('Users cant be the same!')
-        super(Relation, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Tag(BaseModel):
